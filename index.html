@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Cumpleaños Nicole 💖</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Georgia', serif;
+    background:black;
+    overflow-x:hidden;
+}
+
+/* HERO */
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    animation:rainbowBackground 8s infinite linear;
+    text-align:center;
+    transition:0.8s ease;
+}
+
+.hero.fade-out{
+    opacity:0;
+    transform:scale(1.05);
+}
+
+@keyframes rainbowBackground{
+    0%{background:linear-gradient(45deg,red,orange,yellow,green,blue,indigo,violet);}
+    50%{background:linear-gradient(45deg,violet,indigo,blue,green,yellow,orange,red);}
+    100%{background:linear-gradient(45deg,red,orange,yellow,green,blue,indigo,violet);}
+}
+
+h1{
+    font-size:3rem;
+    color:white;
+    text-shadow:0 0 20px hotpink;
+}
+
+.nombre{
+    font-size:4rem;
+    font-weight:bold;
+    margin:15px 0;
+    background:linear-gradient(90deg,#ff00cc,#3333ff,#00ffcc,#ffcc00);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 30px;
+    font-size:1.2rem;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:hotpink;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+/* GALERÍA */
+.galeria{
+    padding:120px 20px;
+    background:#000;
+}
+
+.item{
+    margin-bottom:120px;
+    text-align:center;
+    position:relative;
+}
+
+.parallax-wrapper{
+    overflow:hidden;
+    border-radius:20px;
+    display:inline-block;
+}
+
+.parallax-img{
+    width:100%;
+    max-width:600px;
+    height:auto;
+    display:block;
+    border-radius:20px;
+    transition:transform 0.2s ease-out;
+    will-change:transform;
+}
+
+.poema{
+    color:white;
+    font-size:1.2rem;
+    margin-top:25px;
+    max-width:600px;
+    margin-left:auto;
+    margin-right:auto;
+    opacity:0;
+    transform:translateY(30px);
+    transition:0.8s ease;
+}
+
+.poema.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* Overlay cinematográfico */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:black;
+    opacity:0;
+    pointer-events:none;
+    transition:0.8s ease;
+    z-index:999;
+}
+
+.overlay.active{
+    opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<section class="hero" id="hero">
+    <h1>🎉 ¡Feliz Cumpleaños! 🎂🌈</h1>
+    <div class="nombre">Nicole 💖</div>
+    <button onclick="celebrate()">🎬 Celebrar</button>
+</section>
+
+<section class="galeria" id="galeria">
+
+<div class="item">
+    <div class="parallax-wrapper">
+        <img class="parallax-img" src="imagen/foto1.jpg.jpg">
+    </div>
+    <div class="poema">Hay personas que llegan despacio, como quien no quiere hacer ruido, y terminan quedándose en el centro mismo del alma.</div>
+</div>
+
+<div class="item">
+    <div class="parallax-wrapper">
+        <img class="parallax-img" src="imagen/foto2.jpg.jpg">
+    </div>
+    <div class="poema">Con tu risa despeinando mis miedos, con tus palabras abrazando mis silencios.</div>
+</div>
+
+<div class="item">
+    <div class="parallax-wrapper">
+        <img class="parallax-img" src="imagen/foto3.jpg.jpg">
+    </div>
+    <div class="poema">Amiga, eres refugio cuando el mundo cansa, eres luz cuando el día se nubla.</div>
+</div>
+
+<div class="item">
+    <div class="parallax-wrapper">
+        <img class="parallax-img" src="imagen/foto4.jpg.jpg">
+    </div>
+    <div class="poema">No sé si la vida sabía lo que hacía cuando cruzó nuestros caminos, pero hizo algo hermoso.</div>
+</div>
+
+<div class="item">
+    <div class="parallax-wrapper">
+        <img class="parallax-img" src="imagen/foto5.jpg.jpg">
+    </div>
+    <div class="poema">Porque contigo aprendí que la amistad también es amor, que el cariño también late fuerte.</div>
+</div>
+
+<div class="item">
+    <div class="parallax-wrapper">
+        <img class="parallax-img" src="imagen/foto6.jpg.jpg">
+    </div>
+    <div class="poema">Y si me preguntan qué eres para mí, diré sin pensarlo: mi lugar bonito en este mundo. 💫</div>
+</div>
+
+</section>
+
+<script>
+function celebrate(){
+    const overlay=document.getElementById("overlay");
+    const hero=document.getElementById("hero");
+
+    overlay.classList.add("active");
+
+    setTimeout(()=>{
+        hero.classList.add("fade-out");
+    },200);
+
+    setTimeout(()=>{
+        overlay.classList.remove("active");
+        document.getElementById("galeria")
+            .scrollIntoView({behavior:"smooth"});
+    },800);
+}
+
+/* Reveal texto al entrar en pantalla */
+const items=document.querySelectorAll(".item");
+
+function revealOnScroll(){
+    const trigger=window.innerHeight*0.85;
+
+    items.forEach(item=>{
+        const top=item.getBoundingClientRect().top;
+        if(top<trigger){
+            item.querySelector(".poema")
+                .classList.add("visible");
+        }
+    });
+}
+
+window.addEventListener("scroll",revealOnScroll);
+
+/* Parallax profesional sin romper tamaño */
+const parallaxImages=document.querySelectorAll(".parallax-img");
+
+window.addEventListener("scroll",()=>{
+    parallaxImages.forEach(img=>{
+        const rect=img.getBoundingClientRect();
+        const offset=rect.top * 0.05;
+        img.style.transform=`translateY(${offset}px)`;
+    });
+});
+</script>
+
+</body>
+</html>
